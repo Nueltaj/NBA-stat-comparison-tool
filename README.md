@@ -11,10 +11,28 @@ rebounds, and shooting accuracy using bar charts.
 - Option to save charts in various formats
 
 ## Requirements
+Make sure you have Python 3.7+ installed.
 - pandas
 - numpy
 - matplotlib
 - seaborn
+
+### Install Dependencies
+**Using the requirements file (Recommended):**
+
+```bash
+pip install -r requirements.txt
+
+Or, if you're using a virtual environment:
+# Create a virtual environment
+python -m venv venv
+
+# Activate it
+source venv/bin/activate      # On Linux/Mac
+venv\Scripts\activate         # On Windows
+
+# Install dependencies
+pip install -r requirements.txt
 
 ## Usage
 1. Clone the repo
