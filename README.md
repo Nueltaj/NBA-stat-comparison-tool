@@ -25,5 +25,18 @@ rebounds, and shooting accuracy using bar charts.
 ## Output
 All charts are saved in the `plots/` folder.
 
+### Future Enhancements
+Integrate real-time data using the NBA API for live comparisons.
+Add a web-based interface using Streamlit or Django.
+Enable multi-player comparisons.
+Add interactive visualizations 
+Automatically highlight the statistically better performer per stat
+
 ## License
 MIT License
+
+
+### Contact Me:
+If you have any questions or would like to collaborate, please feel free to reach out to me through:
+- **Email:** nueltajart@gmail.com
+- **LinkedIn Profile:** www.linkedin.com/in/emmanuel-omotaje-40154a275
