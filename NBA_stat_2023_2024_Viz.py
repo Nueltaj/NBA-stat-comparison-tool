@@ -303,7 +303,6 @@ def main():
             print("\nDo you want to make another comparison? ")
             tool_prompt = input("Enter yes or no: ").strip().lower()
             if tool_prompt in ["yes", "y"]:
-                #clear_terminal()
                 continue
             elif tool_prompt in ["no", "n"]:
                 print("👋 Exiting comparison tool.")
