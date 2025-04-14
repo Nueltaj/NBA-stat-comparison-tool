@@ -57,29 +57,35 @@ def player_prompt():
     """Prompt the user to input the names of two players for comparison.
 
     Returns:
-        tuple: A tuple containing the lowercased names of the two players if valid,
-               or (None, None) if the input is invalid."""
+        tuple: A tuple containing the lowercased names of the two players if valid."""
 
     print(" 📊 NBA Player Stat Comparison Tool for The 2023/2024 Season")
-    player1 = input("Enter the name of the first player: ").lower().strip()
-    player2 = input("Enter the name of the second player: ").lower().strip()
-    # Check if both player names exist in the dataset's index to validate input
-    if (
-        player1 in df2.index
-        and player2 in df2.index
-        and player1 in df3.index
-        and player2 in df3.index
-        and player1 in df4.index
-        and player2 in df4.index
-        and player1 in df5.index
-        and player2 in df5.index
-    ):
-        print(f"You want to compare {player1.title()} to {player2.title()}")
-        print("Your comparison chart is being displayed, Please be Patient...")
-        return player1, player2
-    else:
-        print(" ❌ Player's name is incorrect or does not exist in this dataset")
-        return None, None
+
+    while True:
+        player1 = input("Enter the name of the first player: ").lower().strip()
+        player2 = input("Enter the name of the second player: ").lower().strip()
+
+        if player1 == player2:
+            print("⚠️ You cannot compare the same basketballer. Try again.\n")
+            continue
+
+        if (
+            player1 in df2.index
+            and player2 in df2.index
+            and player1 in df3.index
+            and player2 in df3.index
+            and player1 in df4.index
+            and player2 in df4.index
+            and player1 in df5.index
+            and player2 in df5.index
+        ):
+            print(f"\nYou want to compare {player1.title()} to {player2.title()}")
+            print("Please be patient...\n")
+            return player1, player2
+        else:
+            print(
+                "❌ One or both player names are incorrect or not in the dataset. Try again.\n"
+            )
 
 
 def plot_stat_comparison_chart(player1, player2):
@@ -244,36 +250,68 @@ def plot_stat_comparison_chart(player1, player2):
     )
 
     # overall layout
-    plt.suptitle("NBA 2033/2024 Season Stats", fontfamily="DejaVu Serif", fontsize=15)
+    plt.suptitle("NBA 2023/2024 Season Stats", fontfamily="DejaVu Serif", fontsize=15)
     plt.tight_layout()
 
 
 def save_fig(player1, player2):
     """Requests the user's answer to save the file according to a certain format."""
-    supported_formats = ["png", "pdf", "tiff", "jpg", "svg"]
+    print("\nWould you love to save this file?")
+    save_fig_prompt = input("\nEnter yes or no to proceed: ").lower()
+    if save_fig_prompt != "no":
+        supported_formats = ["png", "pdf", "tiff", "jpg", "svg"]
+        print(f"You can save the file in: {', '.join(supported_formats).upper()}")
 
-    print(f"You can save the file in: {', '.join(supported_formats).upper()}")
+        while True:
+            file_format = (
+                input("Enter the format you want to save the chart as: ")
+                .lower()
+                .strip()
+            )
 
-    while True:
-        file_format = input("Enter the format you want to save the chart as: ").lower().strip()
-        
-        if file_format in supported_formats:
-            NAME_OF_FILE = f"{output_folder}/comparison_chart_of_{player1}_to_{player2}"
-            plt.savefig(f"{NAME_OF_FILE}.{file_format}", format=file_format, dpi=300)
-            print(f"\nChart saved successfully as {NAME_OF_FILE}.{file_format} 🎉")
-            break
-        else:
-            print("❌ Invalid format. Please enter a valid format.")
+            if file_format in supported_formats:
+                NAME_OF_FILE = (
+                    f"{output_folder}/comparison_chart_of_{player1}_to_{player2}"
+                )
+                plt.savefig(
+                    f"{NAME_OF_FILE}.{file_format}", format=file_format, dpi=300
+                )
+                print(f"\nChart saved successfully as {NAME_OF_FILE}.{file_format} 🎉")
+                break
+            else:
+                print("❌ Invalid format. Please enter a valid format.")
+    else:
+        plt.show()
 
+def clear_terminal():
+    """Clears the terminal"""
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 def main():
-    player1, player2 = player_prompt()
+    """Runs the NBA Stats Comparison Tool in a loop,
+    allowing users to compare two players repeatedly."""
 
-    if player1 and player2:
-        plot_stat_comparison_chart(player1, player2)
-        save_fig(player1, player2)
-        # show the file(optional)
-        plt.show()
+    while True:
+        
+        clear_terminal()
+        player1, player2 = player_prompt()
+        if player1 and player2:
+            plot_stat_comparison_chart(player1, player2)
+            save_fig(player1, player2)
+            # show the file(optional)
+            plt.show()
+            print("\nDo you want to make another comparison? ")
+            tool_prompt = input("Enter yes or no: ").strip().lower()
+            if tool_prompt in ["yes", "y"]:
+                #clear_terminal()
+                continue
+            elif tool_prompt in ["no", "n"]:
+                print("👋 Exiting comparison tool.")
+                break
+            else:
+                print("❌ Invalid input. Exiting.")
+                break
+
 
 if __name__ == "__main__":
     main()
